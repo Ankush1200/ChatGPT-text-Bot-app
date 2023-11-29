@@ -15,19 +15,19 @@ class ChatScreen extends StatefulWidget {
 
 class _ChatScreenState extends State<ChatScreen> {
   final bool _istyping = true;
-  late TextEditingController messagecontroller;
+  late TextEditingController textEditingController;
   
   get modelsProvider => null;
 
   @override
   void initState() {
-    messagecontroller = TextEditingController();
+    textEditingController = TextEditingController();
     super.initState();
   }
 
   @override
   void dispose() {
-    messagecontroller.dispose();
+    textEditingController.dispose();
     super.dispose();
   }
 
@@ -94,9 +94,9 @@ class _ChatScreenState extends State<ChatScreen> {
                               child: Container(
                                 padding: const EdgeInsets.only(left: 10),
                                 child: TextField(
-                                  controller: messagecontroller,
-                                  onSubmitted: (value) async{
-                                    
+                                  controller: textEditingController,
+                                  onSubmitted: (value) {
+                                    // send function
                                   },
                                   style: const TextStyle(
                                     color: Colors.white,
@@ -109,15 +109,17 @@ class _ChatScreenState extends State<ChatScreen> {
                                 ),
                               ),
                             ),
-                            // IconButton(
-                            //   onPressed: () async {
-                              
-                            //   },
-                            //   icon: const Icon(
-                            //     Icons.send,
-                            //     color: Colors.white,
-                            //   ),
-                            // )
+                            IconButton(
+                              onPressed: () async {
+                              //    await sendMessageFCT(
+                              // modelsProvider: modelsProvider,
+                              // chatProvider: chatProvider);
+                              },
+                              icon: const Icon(
+                                Icons.send,
+                                color: Colors.white,
+                              ),
+                            )
                           ],
                         ),
                       ),
