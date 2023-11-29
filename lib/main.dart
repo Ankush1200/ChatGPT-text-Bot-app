@@ -1,6 +1,8 @@
 import 'package:chatgpt_bot/screens/chat-screen.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'constant/constant.dart';
+import 'providers/model_provider.dart';
 
 void main() {
   runApp(const MyApp());
@@ -12,7 +14,15 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (_) => ModelsProvider(),
+        ),
+      ],
+      child:
+      
+     MaterialApp(
       debugShowCheckedModeBanner:false,
       title: 'ChatGPT Clone',
       theme: ThemeData(
@@ -22,7 +32,7 @@ class MyApp extends StatelessWidget {
           color: cardcolor,
         ),
       ),
-      home: const ChatScreen(),
+      home: const ChatScreen(),)
     );
   }
 }

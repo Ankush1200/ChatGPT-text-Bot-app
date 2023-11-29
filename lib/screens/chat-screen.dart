@@ -3,7 +3,8 @@ import 'package:chatgpt_bot/constant/constant.dart';
 import 'package:chatgpt_bot/services/services.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-
+import '../providers/model_provider.dart';
+import '../services/api_services.dart';
 import '../widget/chatwidget.dart';
 
 class ChatScreen extends StatefulWidget {
@@ -15,19 +16,19 @@ class ChatScreen extends StatefulWidget {
 
 class _ChatScreenState extends State<ChatScreen> {
   final bool _istyping = true;
-  late TextEditingController textEditingController;
+  late TextEditingController messagecontroller;
   
-  get modelsProvider => null;
+  // get modelsProvider => null;
 
   @override
   void initState() {
-    textEditingController = TextEditingController();
+    messagecontroller = TextEditingController();
     super.initState();
   }
 
   @override
   void dispose() {
-    textEditingController.dispose();
+    messagecontroller.dispose();
     super.dispose();
   }
 
@@ -94,10 +95,10 @@ class _ChatScreenState extends State<ChatScreen> {
                               child: Container(
                                 padding: const EdgeInsets.only(left: 10),
                                 child: TextField(
-                                  controller: textEditingController,
-                                  onSubmitted: (value) {
-                                    // send function
-                                  },
+                                  controller: messagecontroller,
+                                  // onSubmitted: (value) {
+                                  //   // send function
+                                  // },
                                   style: const TextStyle(
                                     color: Colors.white,
                                   ),
@@ -111,12 +112,12 @@ class _ChatScreenState extends State<ChatScreen> {
                             ),
                             IconButton(
                               onPressed: () async {
-                              //    await sendMessageFCT(
-                              // modelsProvider: modelsProvider,
-                              // chatProvider: chatProvider);
-                              },
-                              icon: const Icon(
-                                Icons.send,
+                               await ApiService.sendmessages(
+                                message: messagecontroller.text,
+                                modelid: ModelsProvider.getCurrentModel,
+                               );
+                              },  
+                              icon: const Icon(Icons.send,
                                 color: Colors.white,
                               ),
                             )
@@ -132,4 +133,4 @@ class _ChatScreenState extends State<ChatScreen> {
         ),
       );
   }
-}
+  }

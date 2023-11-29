@@ -1,7 +1,9 @@
 import 'package:chatgpt_bot/models/model.dart';
+import 'package:chatgpt_bot/providers/model_provider.dart';
 import 'package:chatgpt_bot/services/api_services.dart';
 import 'package:chatgpt_bot/widget/text_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../constant/constant.dart';
 
@@ -13,9 +15,11 @@ class ModelDropdownButton extends StatefulWidget {
 }
 
 class _ModelDropdownButtonState extends State<ModelDropdownButton> {
-  String currentmodel = "text-search-babbage-doc-001";
+  String?currentmodel;
   @override
   Widget build(BuildContext context) {
+    final modelsProvider = Provider.of<ModelsProvider>(context, listen: false);
+    currentmodel = modelsProvider.getCurrentModel;
     return FutureBuilder<List<ModelModels>>
     (future: ApiService.getModels(), 
     builder: (context,snapshot){
