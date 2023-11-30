@@ -1,4 +1,6 @@
 
+import 'dart:js_util';
+
 import 'package:chatgpt_bot/constant/constant.dart';
 import 'package:chatgpt_bot/services/services.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +17,7 @@ class ChatScreen extends StatefulWidget {
 }
 
 class _ChatScreenState extends State<ChatScreen> {
-  final bool _istyping = true;
+  bool _istyping =false;
   late TextEditingController messagecontroller;
   
   // get modelsProvider => null;
@@ -81,6 +83,7 @@ class _ChatScreenState extends State<ChatScreen> {
                   color: Colors.white,
                   size: 18,
                 ),
+              ],
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: ClipRRect(
@@ -112,10 +115,22 @@ class _ChatScreenState extends State<ChatScreen> {
                             ),
                             IconButton(
                               onPressed: () async {
-                               await ApiService.sendmessages(
+                                setState(() {
+                                  _istyping=true;
+                                });
+                               try{
+                                 await ApiService.sendmessages(
                                 message: messagecontroller.text,
-                                modelid: ModelsProvider.getCurrentModel,
-                               );
+                                modelid: "gpt-3.5-turbo",
+                                );
+                               }catch(e){
+                                print("Error $e");
+                               }finally{
+                                setState(() {
+                                  _istyping=false;
+                                });
+                               }
+                               
                               },  
                               icon: const Icon(Icons.send,
                                 color: Colors.white,
@@ -127,7 +142,6 @@ class _ChatScreenState extends State<ChatScreen> {
                     ),
                   ),
                 ),
-              ],
             ],
           ),
         ),

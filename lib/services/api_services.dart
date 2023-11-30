@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 import 'package:chatgpt_bot/constant/api_constant.dart';
 import 'package:chatgpt_bot/models/model.dart';
@@ -53,19 +54,20 @@ class ApiService {
           },
         ),
       );
-      Map jsonResponse = jsonDecode(response.body);
+      Map<String,dynamic> jsonResponse = jsonDecode(response.body);
 
       if (jsonResponse['error'] != null) {
         // print("jsonResponse['error'] ${jsonResponse['error']["message"]}");
         throw HttpException(jsonResponse['error']["message"]);
       }
-      if(jsonResponse["choices"].lenth>0){
-        print("jsonResponse[choices]text ${jsonResponse["choices"]["message"]["content"]}");
-      }
-      print("JsonResponse $jsonResponse");
+      print(jsonResponse["choices"][0]["message"]["content"]);
+      // if(jsonResponse["choices"].lenth>0){
+      //   // print("jsonResponse[choices]text ${jsonResponse["choices"][0]["message"]["content"]}");
+      // }
+      // print("JsonResponse $jsonResponse");
       
     } catch (error) {
-      // log("-------------Error $error ---------------");
+      log("-------------Error $error ---------------");
       rethrow;
     }
   }
