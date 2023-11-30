@@ -4,7 +4,6 @@ import 'dart:io';
 import 'package:chatgpt_bot/constant/api_constant.dart';
 import 'package:chatgpt_bot/models/chat_models.dart';
 import 'package:chatgpt_bot/models/model.dart';
-import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 
 class ApiService {
