@@ -1,11 +1,7 @@
-
-import 'dart:js_util';
-
 import 'package:chatgpt_bot/constant/constant.dart';
 import 'package:chatgpt_bot/services/services.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import '../providers/model_provider.dart';
 import '../services/api_services.dart';
 import '../widget/chatwidget.dart';
 
