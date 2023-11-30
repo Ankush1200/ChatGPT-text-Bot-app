@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:chatgpt_bot/constant/api_constant.dart';
 import 'package:chatgpt_bot/models/chat_models.dart';
 import 'package:chatgpt_bot/models/model.dart';
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 
 class ApiService {
@@ -64,15 +65,18 @@ class ApiService {
       List<ChatModel> chatMsg=[];
       // print(jsonResponse["choices"][0]["message"]["content"]);
 
-      if (jsonResponse["choices"].length > 0) {
+      if (jsonResponse["choices"]!=null && jsonResponse["choices"].length > 0) {
         chatMsg = List.generate(
           jsonResponse["choices"].length,
           (index) => ChatModel(
               msg: jsonResponse["choices"][index]["message"]["content"],
-              chatIndex: 0),
+              chatIndex:1),
         );
         // print("jsonResponse[choices]text ${jsonResponse["choices"][0]["message"]["content"]}");
+      }else{
+        print("No response found");
       }
+      print(chatMsg);
       return chatMsg;
       // print("JsonResponse $jsonResponse");
     } catch (error) {
