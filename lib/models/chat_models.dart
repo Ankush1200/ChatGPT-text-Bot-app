@@ -8,4 +8,5 @@ class ChatModel {
         msg: json["msg"],
         chatIndex: json["chatIndex"],
       );
+
 }

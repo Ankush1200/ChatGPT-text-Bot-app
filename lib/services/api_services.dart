@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 import 'package:chatgpt_bot/constant/api_constant.dart';
+import 'package:chatgpt_bot/models/chat_models.dart';
 import 'package:chatgpt_bot/models/model.dart';
 import 'package:http/http.dart' as http;
 
@@ -35,7 +36,7 @@ class ApiService {
 
   // -----------send prompts to the chatGPT OPEN_AI_API---------------
 
-  static Future<void> sendmessages(
+  static Future<List<ChatModel>> sendmessages(
       {required String message, required String modelid}) async {
     try {
       var response = await http.post(
@@ -54,18 +55,26 @@ class ApiService {
           },
         ),
       );
-      Map<String,dynamic> jsonResponse = jsonDecode(response.body);
+      Map jsonResponse = jsonDecode(response.body);
 
       if (jsonResponse['error'] != null) {
         // print("jsonResponse['error'] ${jsonResponse['error']["message"]}");
         throw HttpException(jsonResponse['error']["message"]);
       }
-      print(jsonResponse["choices"][0]["message"]["content"]);
-      // if(jsonResponse["choices"].lenth>0){
-      //   // print("jsonResponse[choices]text ${jsonResponse["choices"][0]["message"]["content"]}");
-      // }
+      List<ChatModel> chatMsg=[];
+      // print(jsonResponse["choices"][0]["message"]["content"]);
+
+      if (jsonResponse["choices"].length > 0) {
+        chatMsg = List.generate(
+          jsonResponse["choices"].length,
+          (index) => ChatModel(
+              msg: jsonResponse["choices"][index]["message"]["content"],
+              chatIndex: 0),
+        );
+        // print("jsonResponse[choices]text ${jsonResponse["choices"][0]["message"]["content"]}");
+      }
+      return chatMsg;
       // print("JsonResponse $jsonResponse");
-      
     } catch (error) {
       log("-------------Error $error ---------------");
       rethrow;
